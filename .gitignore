@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+# IDE
+.idea/
+.vscode/
+# build outputs (vulnerable binaries are never committed)
+build/
+*.bin
+*.o
+results/raw/
+# secrets
+.env

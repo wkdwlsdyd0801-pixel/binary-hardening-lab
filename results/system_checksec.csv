@@ -1,0 +1,18 @@
+# seed=0 arch=x86_64 os=Ubuntu_24.04.5_LTS gcc=13.3.0 cpus=2 dirs=/usr/bin:/usr/sbin:/usr/lib/x86_64-linux-gnu
+group,metric,count,total,percent
+executable,nx,916,916,100.0
+executable,pie,899,916,98.1
+executable,relro_full,788,916,86.0
+executable,relro_partial,127,916,13.9
+executable,relro_none,1,916,0.1
+executable,canary,823,916,89.8
+executable,fortify,762,916,83.2
+executable,cet_ibt_shstk,899,916,98.1
+shared_library,nx,771,771,100.0
+shared_library,pie,771,771,100.0
+shared_library,relro_full,487,771,63.2
+shared_library,relro_partial,284,771,36.8
+shared_library,relro_none,0,771,0.0
+shared_library,canary,693,771,89.9
+shared_library,fortify,524,771,68.0
+shared_library,cet_ibt_shstk,737,771,95.6

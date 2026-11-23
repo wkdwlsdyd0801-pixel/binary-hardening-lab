@@ -1,0 +1,58 @@
+# seed=0 arch=x86_64 randomize_va_space=2 gcc=13.3.0
+program,profile,payload,returncode,outcome,cause,stdout
+stack_overflow,none,benign,0,ok,,"read 2 bytes, first byte 0x68"
+stack_overflow,none,overflow,-11,crash,segv,"read 200 bytes, first byte 0x41"
+stack_overflow,nx,benign,0,ok,,"read 2 bytes, first byte 0x68"
+stack_overflow,nx,overflow,-11,crash,segv,"read 200 bytes, first byte 0x41"
+stack_overflow,canary,benign,0,ok,,"read 2 bytes, first byte 0x68"
+stack_overflow,canary,overflow,-6,blocked,canary,"read 200 bytes, first byte 0x41"
+stack_overflow,fortify,benign,-6,blocked,fortify_objsize,
+stack_overflow,fortify,overflow,-6,blocked,fortify_objsize,
+stack_overflow,pie,benign,0,ok,,"read 2 bytes, first byte 0x68"
+stack_overflow,pie,overflow,-11,crash,segv,"read 200 bytes, first byte 0x41"
+stack_overflow,relro,benign,0,ok,,"read 2 bytes, first byte 0x68"
+stack_overflow,relro,overflow,-11,crash,segv,"read 200 bytes, first byte 0x41"
+stack_overflow,cet,benign,0,ok,,"read 2 bytes, first byte 0x68"
+stack_overflow,cet,overflow,-11,crash,segv,"read 200 bytes, first byte 0x41"
+stack_overflow,all,benign,-6,blocked,fortify_objsize,
+stack_overflow,all,overflow,-6,blocked,fortify_objsize,
+heap_overflow,none,benign,0,ok,,copied=4 name=bob role=user
+heap_overflow,none,careful,3,exploited,priv_escalation,copied=38 name=AAAAAAAA role=admin
+heap_overflow,none,sloppy,-6,blocked,abort,copied=60 name=AAAAAAAA role=AAAAAAAAAAAAAAAA
+heap_overflow,nx,benign,0,ok,,copied=4 name=bob role=user
+heap_overflow,nx,careful,3,exploited,priv_escalation,copied=38 name=AAAAAAAA role=admin
+heap_overflow,nx,sloppy,-6,blocked,abort,copied=60 name=AAAAAAAA role=AAAAAAAAAAAAAAAA
+heap_overflow,canary,benign,0,ok,,copied=4 name=bob role=user
+heap_overflow,canary,careful,3,exploited,priv_escalation,copied=38 name=AAAAAAAA role=admin
+heap_overflow,canary,sloppy,-6,blocked,abort,copied=60 name=AAAAAAAA role=AAAAAAAAAAAAAAAA
+heap_overflow,fortify,benign,0,ok,,copied=4 name=bob role=user
+heap_overflow,fortify,careful,-6,blocked,fortify_objsize,
+heap_overflow,fortify,sloppy,-6,blocked,fortify_objsize,
+heap_overflow,pie,benign,0,ok,,copied=4 name=bob role=user
+heap_overflow,pie,careful,3,exploited,priv_escalation,copied=38 name=AAAAAAAA role=admin
+heap_overflow,pie,sloppy,-6,blocked,abort,copied=60 name=AAAAAAAA role=AAAAAAAAAAAAAAAA
+heap_overflow,relro,benign,0,ok,,copied=4 name=bob role=user
+heap_overflow,relro,careful,3,exploited,priv_escalation,copied=38 name=AAAAAAAA role=admin
+heap_overflow,relro,sloppy,-6,blocked,abort,copied=60 name=AAAAAAAA role=AAAAAAAAAAAAAAAA
+heap_overflow,cet,benign,0,ok,,copied=4 name=bob role=user
+heap_overflow,cet,careful,3,exploited,priv_escalation,copied=38 name=AAAAAAAA role=admin
+heap_overflow,cet,sloppy,-6,blocked,abort,copied=60 name=AAAAAAAA role=AAAAAAAAAAAAAAAA
+heap_overflow,all,benign,0,ok,,copied=4 name=bob role=user
+heap_overflow,all,careful,-6,blocked,fortify_objsize,
+heap_overflow,all,sloppy,-6,blocked,fortify_objsize,
+format_string,none,leak,0,ok,,0x1.0x1.0x8
+format_string,none,write,-11,crash,segv,
+format_string,nx,leak,0,ok,,0x1.0x1.0x8
+format_string,nx,write,-11,crash,segv,
+format_string,canary,leak,0,ok,,0x1.0x1.0x8
+format_string,canary,write,-11,crash,segv,
+format_string,fortify,leak,0,ok,,0x1.0x8.0x33d662a9
+format_string,fortify,write,-6,blocked,fortify_percent_n,
+format_string,pie,leak,0,ok,,0x1.0x1.0x8
+format_string,pie,write,-11,crash,segv,
+format_string,relro,leak,0,ok,,0x1.0x1.0x8
+format_string,relro,write,-11,crash,segv,
+format_string,cet,leak,0,ok,,0x1.0x1.0x8
+format_string,cet,write,-11,crash,segv,
+format_string,all,leak,0,ok,,0x1.0x8.0x55d50772a2a9
+format_string,all,write,-6,blocked,fortify_percent_n,

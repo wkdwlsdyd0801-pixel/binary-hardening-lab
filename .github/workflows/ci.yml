@@ -1,0 +1,45 @@
+# CI: run the full test suite (which compiles every vuln/ program under every
+# mitigation profile and checks the resulting ELF flags), then a quick
+# measurement smoke run. Ubuntu runners ship gcc/make/binutils already.
+# WHY gcc only: the README results and payload offsets were measured with gcc;
+# clang lays out the stack frame differently, so the exploit offsets change.
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read   # least privilege: CI never writes to the repo
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    env:
+      CC: gcc
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install toolchain
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends gcc make binutils
+      - name: Install test deps (pinned)
+        run: python -m pip install -r requirements-dev.txt
+      - name: Unit + matrix tests
+        run: python -m pytest -q
+      - name: Build all profiles
+        run: make -f build.mk
+      - name: Measurement smoke run (small sample, fixed seed)
+        # Writes to a scratch dir so the committed results/ stay the reference run.
+        run: python scripts/measure.py --samples 20 --seed 0 --out /tmp/ci-results
+
+  docker:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: One-command reproducible run in the container
+        run: |
+          docker build -t binary-hardening-lab .
+          docker run --rm binary-hardening-lab
